@@ -1,8 +1,12 @@
 package jdbcTesting;
 
+import org.junit.Assert;
+
 import java.sql.*;
 
-public class JDBC_Query02 {
+import static org.junit.Assert.*;
+
+public class JDBC_Query03 {
 
     public static void main(String[] args) throws SQLException {
 
@@ -12,17 +16,25 @@ public class JDBC_Query02 {
 
         Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
 
-        String query = "SELECT * FROM u168183796_qawonder.staff";
+        String query = "SELECT * FROM u168183796_qawonder.roles";
+
         ResultSet resultSet = statement.executeQuery(query);
 
-        resultSet.next();
-        System.out.println(resultSet.getString("surname")); // Black
-
-        System.out.println(resultSet.getString(10)); // Black
-
-        resultSet.next();
-        System.out.println(resultSet.getString("surname")); // Verma
+        resultSet.absolute(4);
 
 
+        String expectedData = "Librarian";
+        String actualData = resultSet.getString("name");
+
+        assertEquals(expectedData,actualData);
+
+
+        // 5. adim: veritabani baglantisini bitir
+
+        // last in first out = LIFO
+
+        resultSet.close();
+        statement.close();
+        connection.close();
     }
 }
